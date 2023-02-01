@@ -13,7 +13,7 @@ namespace Translator
 
         public void Run()
         {
-            string optionInput;
+            string inputOption;
 
             do
             {
@@ -26,34 +26,35 @@ namespace Translator
                 Console.WriteLine();
                 Console.Write("Pick an option or type x/exit to exit: ");
 
-                optionInput = Console.ReadLine().ToLower();
-                var isNumber = int.TryParse(optionInput, out var option);
+                inputOption = Console.ReadLine().ToLower();
+                var isNumber = int.TryParse(inputOption, out var option);
+
 
                 if (isNumber)
                 {
-                    if (option <= _languages.Count && option > 0)
-                    {
-                        Console.WriteLine($"You selected {_languages[option - 1]} option.");
-                        Console.WriteLine();
-                    }
-                    else
+                    if (option > _languages.Count || option <= 0)
                     {
                         Console.WriteLine("Invalid option.");
                         Console.WriteLine();
                         continue;
                     }
 
-                    Console.Write($"{_languages[option - 1].From} : ");
+                    var language = _languages[option - 1];
+
+                    Console.WriteLine($"You selected {language} option.");
+                    Console.WriteLine();
+
+                    Console.Write($"{language.From} : ");
                     var userInput = Console.ReadLine().ToLower();
 
-                    var result = _languages[option - 1].Translate(userInput);
+                    var result = language.Translate(userInput);
 
-                    Console.Write($"{_languages[option - 1].To}: {result}");
+                    Console.Write($"{language.To}: {result}");
                     Console.WriteLine();
                     Console.WriteLine();    
                 }
 
-            } while (optionInput != "x" && optionInput != "exit");
+            } while (inputOption != "x" && inputOption != "exit");
         }
     }
 }
